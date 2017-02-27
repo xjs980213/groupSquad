@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!--<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>-->
+		
+		<style type="text/css">
+			.a{
+				width: 50px;
+				height: 50px;
+				background-color: red;
+				position: absolute;
+				top: 100px;
+				left: 0px;
+				border-radius: 50%;
+				color: #fff;
+				text-align: center;
+				line-height: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="a">1</div>
+		<div class="a">2</div>
+		<div class="a">3</div>
+		<div class="a">4</div>
+		<div class="a">5</div>
+		<div class="a">6</div>
+		<div class="a">7</div>
+		<div class="a">8</div>
+		<div class="a">9</div>
+		<div class="a">10</div>
+		<div class="a">11</div>
+		<script src="js/move4.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var onoff=true;
+			var d=document.getElementsByClassName("a");
+			for (var i=0;i<d.length;i++) {
+				d[i].index=i;
+				d[i].style.left=i*60+"px";
+				d[i].onclick=function(){
+					if(onoff){
+						onoff=!onoff;
+						var _this=this;
+						move(this,{top:500},500,"linear");	
+						setTimeout(function(){
+							movepre(_this.index);
+							movenext(_this.index);
+						},50);
+					}
+				};
+			}
+				//方法名称：根据已经移动的索引值，找到前驱对象并移动
+				//参数：已经移动的元素的索引值
+				function movepre(movepreIndex){	
+					if(movepreIndex>0){
+						movepreIndex--; 
+						setTimeout(function(){
+							//传入要移动的对象，回掉函数中调用自己，并传入移动元素的索引值
+							
+							move(d[movepreIndex],{top:500},500,"linear",movepre(d[movepreIndex].index));
+						},50);
+					}
+				}
+				
+				function movenext(movenextIndex){
+					if(movenextIndex<d.length-1){
+						movenextIndex++;
+						setTimeout(function(){
+							move(d[movenextIndex],{top:500},500,"linear",movenext(d[movenextIndex].index));
+						},50);
+					}
+				}
+			
+		
+		
+	
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<!--<script src="js/jquery-2.1.1.min.js" type="text/javascript" charset="utf-8"></script>-->
+		
+		<style type="text/css">
+			.a{
+				width: 50px;
+				height: 50px;
+				background-color: red;
+				position: absolute;
+				top: 100px;
+				left: 0px;
+				border-radius: 50%;
+				color: #fff;
+				text-align: center;
+				line-height: 50px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="a">1</div>
+		<div class="a">2</div>
+		<div class="a">3</div>
+		<div class="a">4</div>
+		<div class="a">5</div>
+		<div class="a">6</div>
+		<div class="a">7</div>
+		<div class="a">8</div>
+		<div class="a">9</div>
+		<div class="a">10</div>
+		<div class="a">11</div>
+		<script src="js/move4.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var onoff=false;
+			var num=0;
+			var num1 =0;
+			var tar = "500";
+			var timer = null;
+			var d=document.getElementsByClassName("a");
+			
+			for (var i=0;i<d.length;i++) {
+				d[i].index=i;
+				d[i].style.left=i*60+"px";
+				d[i].onclick=function(){
+					
+					if(onoff==true){
+						return
+					}
+					onoff=true;
+					num=this.index;
+					num1=this.index;
+					
+					move(this,{top:tar},500,"linear");	
+					timer = setTimeout(function(){
+						movepre();
+						movenext();
+					},50);
+				}
+			}
+			
+			function movepre(){	
+				if(num>0){
+					clearInterval(timer);
+				}
+				if(num>0){
+					num--; 
+					timer = setTimeout(function(){
+						move(d[num],{top:tar},500,"linear",movepre(d[num].index));
+					},50);
+					
+				}
+				if(num>0 && num1>d.length-1){
+					onoff=false;
+					if(tar=="500"){
+						tar = "0"
+					}else{
+						tar = "500"
+					}
+					
+				}
+			}
+				
+			function movenext(){
+				if(num1>d.length-1){
+					clearInterval(timer);
+				}
+				if(num1<d.length-1){
+					num1++;
+					timer = setTimeout(function(){;
+						move(d[num1],{top:tar},500,"linear",movenext(d[num1].index));
+					},50);
+				}
+				if(num>0 && num1>d.length-1){
+					clearInterval(timer);
+					onoff=false;
+					if(tar=="500"){
+						tar = "0";
+					}else{
+						tar = "500"
+					}
+				}
+			}
+			
+		
+		
+	
+		</script>
+	</body>
+
+</html>
